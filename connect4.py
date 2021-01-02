@@ -15,8 +15,15 @@ class Connect4:
 
     def make_move(self, column: int) -> bool:
         """Returns True if able to place piece in current player's column"""
+
+        column -= 1
+        if not column in range(0,7):
+            return False
         
-        pass
+        
+
+        return True
+
 
     def __str__(self) -> str:
         """Return's the board as a String"""
@@ -31,11 +38,3 @@ class Connect4:
     def __repr__(self) -> str:
         """Return the Connect4 game state as a String"""
         return self.__str__()
-
-
-
-def board_test():
-    game = Connect4()
-    print(game)
-
-board_test()
