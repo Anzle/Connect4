@@ -15,7 +15,13 @@ class Connect4:
             self.board.append(column)
 
     def make_move(self, column: int) -> bool:
-        """Returns True if able to place piece in current player's column"""
+        """Returns True if able to place a piece in specified column"""
+        try:
+            # check that the variable is an int
+            column = int(column)
+        except:
+            return False
+
         column -= 1 # drecement for code
         if (
             self.state != 'Unfinished'
@@ -27,22 +33,44 @@ class Connect4:
         lowest_row = self.board[column].index(self.EMPTY)
         self.board[column][lowest_row] = self.player
 
+        # check if player won
+
+        # update the current player
         self.player = 'R' if self.player == 'Y' else 'Y'
 
         return True
 
-
     def __str__(self) -> str:
-        """Return's the board as a String"""
-        board_str = 'Current Player: '+self.player + '\n  1   2   3   4   5   6   7  \n'
+        """Return the board as a String"""
+        board_str = '\n  1   2   3   4   5   6   7  \n'
         for y in range(self._rows-1, -1, -1):
             for x in range(self._cols):
                 board_str += '| ' + self.board[x][y] + ' '
             board_str += '|\n'
         board_str += '-'*29
-        board_str += '\nGame State: '+ self.state
+        
+        # Change the output based on if game is over or not
+        if(self.state == "Unfinished"):
+            board_str += '\nPlayer '+self.player + ', it is your turn'
+        else:
+            board_str += '\nGame State: '+ self.state
+        
         return board_str + '\n'
 
     def __repr__(self) -> str:
         """Return the Connect4 game state as a String"""
         return self.__str__()
+    
+    def play(self):
+        """Play an interactive game of Connect4"""
+        print("Welcome to Connect4!")
+        print("Each player will take turns dropping their piece in one of the columns.")
+        print("Your objective is to get 4 of your pieces in a row on the {col} x {row} sized board".format(col=self._cols, row=self._rows))
+        print("\n",self)
+
+        while(self.state == "Unfinished"):
+            while(not self.make_move(input("\nPlease select a column: "))):
+                print("The column chosen was invalid.")
+            print(self)
+        
+        print("Thank you for playing!")
