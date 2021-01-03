@@ -2,7 +2,7 @@
 
 class Connect4:
     def __init__(self):
-        EMPTY = ' '
+        self.EMPTY = ' '
         self.board = []
         self.player = 'R'
 
@@ -10,17 +10,20 @@ class Connect4:
         self._rows = 6
 
         for x in range(self._cols):
-            column = [EMPTY for i in range(self._rows)]
+            column = [self.EMPTY for i in range(self._rows)]
             self.board.append(column)
 
     def make_move(self, column: int) -> bool:
         """Returns True if able to place piece in current player's column"""
-
-        column -= 1
-        if not column in range(0,7):
+        column -= 1 # drecement for code
+        if not column in range(0,7) or self.board[column][5] != self.EMPTY:
             return False
         
-        
+        # get lowest height in column
+        lowest_row = self.board[column].index(self.EMPTY)
+        self.board[column][lowest_row] = self.player
+
+        self.player = 'R' if self.player == 'Y' else 'Y'
 
         return True
 
